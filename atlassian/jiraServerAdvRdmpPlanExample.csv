@@ -1,0 +1,15 @@
+"Hierarchy","Title","Project","Releases","Team","Assignee","Sprint","Target start date","Target end date","Due date","Estimates (h)","Parent","Priority","Labels","Components","Issue key","Issue status","Progress (%)","Progress completed (h)","Progress remaining (h)","Progress (%) issue count (IC)","To do IC","In progress IC","Done IC","Total IC"
+"Initiative","Basic NASDAQ MVP by 2020.12.01","programGreen","","",,"","08/Aug/20","12/Sep/20","","","","Medium","","","PRGGRN-1","Backlog",0,0,0,0,3,0,0,3
+"Epic","Registration and Email Authentication","teamScrumRed","","",,"","","","","","Basic NASDAQ MVP by 2020.12.01","Medium","","","TSRED-5","To Do",0,0,0,0,4,0,0,4
+"Story","Register Stock Broker","teamScrumRed","","",,"","","","","","Registration and Email Authentication","Medium","","","TSRED-1","To Do",0,0,0,0,0,0,0,0
+"Story","Login Stock Broker","teamScrumRed","","",,"","","","","","Registration and Email Authentication","Medium","","","TSRED-2","To Do",0,0,0,0,0,0,0,0
+"Story","Logout Stock Broker","teamScrumRed","","",,"","","","","","Registration and Email Authentication","Medium","","","TSRED-3","To Do",0,0,0,0,0,0,0,0
+"Story","Login Error Notifications","teamScrumRed","","",,"","","","","","Registration and Email Authentication","Medium","","","TSRED-4","To Do",0,0,0,0,0,0,0,0
+"Epic","View NASDAQ Stock's Key Stock Indicators","teamKanbanBlue","","TKBLUE board Team",,"","13/Aug/20","30/Aug/20","","","Basic NASDAQ MVP by 2020.12.01","Medium","","","TKBLUE-8","Backlog",0,0,0,0,4,0,0,4
+"Story","Moving Average Stock Indicator","teamKanbanBlue","","TKBLUE board Team",,"","23/Aug/20","26/Aug/20","","","View NASDAQ Stock's Key Stock Indicators","Medium","","","TKBLUE-2","Backlog",0,0,0,0,0,0,0,0
+"Story","Moving Average Convergence Divergence (MACD) Stock Indicator","teamKanbanBlue","","",,"","","","","","View NASDAQ Stock's Key Stock Indicators","Medium","","","TKBLUE-3","Backlog",0,0,0,0,0,0,0,0
+"Story","Relative Strength Index (RSI) Stock Indicator","teamKanbanBlue","","",,"","","","","","View NASDAQ Stock's Key Stock Indicators","Medium","","","TKBLUE-4","Backlog",0,0,0,0,0,0,0,0
+"Story","On-Balance Volume (OBV) Stock Indicator","teamKanbanBlue","","",,"","","","","","View NASDAQ Stock's Key Stock Indicators","Medium","","","TKBLUE-5","Backlog",0,0,0,0,0,0,0,0
+"Epic","Stock Search & List - NASDAQ","teamKanbanBlue","","TKBLUE board Team",,"","08/Aug/20","20/Aug/20","","","Basic NASDAQ MVP by 2020.12.01","Medium","","","TKBLUE-6","Backlog",0,0,0,0,2,0,0,2
+"Story","Stock Search - NASDAQ","teamKanbanBlue","","TKBLUE board Team",,"","12/Aug/20","15/Aug/20","","","Stock Search & List - NASDAQ","Medium","","","TKBLUE-1","Backlog",0,0,0,0,0,0,0,0
+"Story","Stock List based on Search - NASDAQ","teamKanbanBlue","","TKBLUE board Team",,"","17/Aug/20","20/Aug/20","","","Stock Search & List - NASDAQ","Medium","","","TKBLUE-7","Backlog",0,0,0,0,0,0,0,0

@@ -1,0 +1,73 @@
+= JQL
+
+== Get PBI's from Previous Sprints
+----
+Sprint in closedSprints() AND issuetype != Sub-task and project = 'TEST' and 
+---
+
+== Get PBI's from Previous Sprints
+----
+project = 'TEST' and resolved >= startOfMonth(-3)
+project = 'TEST' and resolved >= startOfMonth(-3) AND resolved <= endOfMonth(-1)
+----
+
+== Kaizen
+
+* Get a list of issues that were created in the last number of days and have the label 'kaizen'
+----
+project = 'TEST' and created >= startOfDay(-17d) and labels = 'kaizen' ORDER BY created DESC
+----
+
+== Bug Reports
+----
+project = 'TEST' and created >= startOfDay() and issuetype = 'Bug' ORDER BY created DESC
+project = 'TEST' and created >= startOfMonth() and issuetype = 'Bug' ORDER BY created DESC
+project = 'TEST' and created >= startOfYear() and issuetype = 'Bug' ORDER BY created DESC
+project = 'TEST' and created >= startOfDay(-17d) and issuetype = 'Bug' ORDER BY created DESC
+project = 'TEST' and created >= startOfDay(-3M) and issuetype = 'Bug' ORDER BY created DESC
+# This will include everything in the months that this range touches...
+project = 'TEST' and created >= startOfMonth(-3M) and issuetype = 'Bug' ORDER BY created DESC
+# This will include everything in the years that this range touches...
+project = 'TEST' and created >= startOfYear(-6M) and issuetype = 'Bug' ORDER BY created DESC
+# Get Bugs created and closed from a particular date
+project = 'TEST' and created >= startOfYear(-6M) and status in ('DONE') and issuetype = 'Bug' ORDER BY created DESC
+# Get Bugs created and closed in a date range
+project = 'TEST' and created >= startOfYear(-6M) and created <= startOfDay(-30d) and status in ('DONE','WONT_DO') and issuetype = 'Bug' ORDER BY created DESC
+----
+
+
+== Show continuous improvement tasks
+----
+project = "Project Name" and labels = kaizen and status NOT IN ("Done")
+----
+
+== Only show epics
+----
+issuetype = epic
+----
+
+== Show epics and linked issues across projects
+* Search in all Projects
+----
+parentEpic = PRJID-77
+# OR...
+parentEpic IN (PRJID-77, PRJID-1)
+----
+* Specific Projects
+----
+(project = "Name of Project" OR project = NameOfProject) and parentEpic = PRJID-77
+# OR...
+project IN ("Name of Project", NameOfProject) and parentEpic IN (PRJID-77, PRJID-1)
+----
+
+== Link Epics & Initiatives
+* When  you don't have advanced roadmaps you can have a simple link between epics and initiatives and search all epics linked to initiative based on the following query
+----
+project = PROG and issue in linkedIssues("PROG-1")
+----
+* Find all issues & sub-taks linked to an epic
+----
+"Epic Link" = "GHTB-1"
+OR
+Epic-Verknüpfung = "GHTB-1"
+----

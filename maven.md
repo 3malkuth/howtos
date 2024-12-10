@@ -1,0 +1,218 @@
+## Background
+* apply patterns to a project's build infrastructure
+ * in order to promote comprehension
+ * and productivity
+ * by providing a clear path in the use of best practices 
+* Using a minimal pom.xml allows you to make use of a lot of standard conventions maven offers by default
+
+## Password Encryption
+* https://maven.apache.org/guides/mini/guide-encryption.html
+
+## Tests
+```
+mvn clean install  -DskipTests -D skipIts # Skip all tests
+mvn -Dit.test=TestClass.Method verify
+```
+
+## Aliases
+* Add to .bash_profile
+```
+alias mvnclean='mvn clean install'
+alias mvnskip='mvn clean install -DskipITs=false'
+alias mvndebug='mvn clean install -P debugger'
+alias mvndep='mvn clean install -P server-package-deploy'
+```
+
+## Basic commands
+
+```
+$ mvn clean # this will remove the target directory with all the build data before starting
+$ mvn compile # compile application sources
+# First time downloads plugins and related dependencies
+# ${basedir}/target/classes default place where compiled classes are placed
+# note dependencies are placed in ~/.m2/repository
+$ mvn test # compile test sources and run unit tests
+# note there are default names of tests surefire looks for
+$ mvn test-compile # only compile test sources and DON'T run unit tests
+$ mvn package # create jar/war etc. and install in local repo (into target folder)
+# if you want to run a jar on the command line you must checkout:
+# http://stackoverflow.com/questions/9689793/cant-execute-jar-file-no-main-manifest-attribute
+$ mvn install # installs your jar into your local repo, by default =  ~/.m2/repository
+$ mvn site # generates website for your project in the target directory (admin view by default)
+$ mvn idea:idea # generate an IntelliJ IDEA descriptor for your project
+$ mvn eclipse:eclipse # generate one for eclipse
+$ mvn jar:jar # generates jar from already compiled sources - they need to be there!!
+$ mvn clean test -Dcom.tripattern.java.squirrelJ.service.AlphaVantageCoService # run specific test
+```
+Notes  
+* Delete your ~/.m2/repository folder regularly to get rid of dependencies that are no longer used
+ * YES, it does mean you will need to download all dependencies again that you are working on.
+
+## Configuration
+```
+$ export MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=128m" # set the heap size
+```
+
+## Debugging
+```
+$ mvn clean install –X # enables level logging, show all build actions...
+$ mvn dependency:tree # issues with build dependencies? build a dependency tree
+$ mvn clean install -Dmaven.surefire.debug # remote debugging, connect IDE to port 5005 for remote debugging
+$ $ mvn clean install -Dmaven.surefire.debug="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000 -Xnoagent -Djava.compiler=NONE"
+# maven pauses 4 connect from IDE if suspend=y
+$ mvn help:system # view all environment variuables and system properties
+$ mvn help:effective-pom # view the effective pom file with defaults not specified in your pom.xml
+$ mvn dependency:build-classpath # view the dependency classpath, listing all jars and directories in the build classpath
+$ mvn dependency:analyze # helps you find inconcistencies in your build
+```
+
+## Example Archetypes
+```
+## Simple app with unit test structure setup by default
+$ mvn -B archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -DgroupId=com.mycompany.app -DartifactId=my-app
+```
+
+## Example basic pom.xml
+* POM is short for Project Object Model
+```
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.mycompany.app</groupId>
+  <artifactId>my-app</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>Maven Quick Start Archetype</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>
+```
+Notes:  
+* project This is the top-level element in all Maven pom.xml files.
+* modelVersion This element indicates what version of the object model this POM is using. The version of the model itself changes very infrequently but it is mandatory in order to ensure stability of use if and when the Maven developers deem it necessary to change the model.
+* groupId This element indicates the unique identifier of the organization or group that created the project. The groupId is one of the key identifiers of a project and is typically based on the fully qualified domain name of your organization. For example org.apache.maven.plugins is the designated groupId for all Maven plugins.
+* artifactId This element indicates the unique base name of the primary artifact being generated by this project. The primary artifact for a project is typically a JAR file. Secondary artifacts like source bundles also use the artifactId as part of their final name. A typical artifact produced by Maven would have the form <artifactId>-<version>.<extension> (for example, myapp-1.0.jar).
+* packaging This element indicates the package type to be used by this artifact (e.g. JAR, WAR, EAR, etc.). This not only means if the artifact produced is JAR, WAR, or EAR but can also indicate a specific lifecycle to use as part of the build process. (The lifecycle is a topic we will deal with further on in the guide. For now, just keep in mind that the indicated packaging of a project can play a part in customizing the build lifecycle.) The default value for the packaging element is JAR so you do not have to specify this for most projects.
+* version This element indicates the version of the artifact generated by the project. Maven goes a long way to help you with version management and you will often see the SNAPSHOT designator in a version, which indicates that a project is in a state of development. We will discuss the use of snapshots and how they work further on in this guide.
+* name This element indicates the display name used for the project. This is often used in Maven's generated documentation.
+* url This element indicates where the project's site can be found. This is often used in Maven's generated documentation.
+* description This element provides a basic description of your project. This is often used in Maven's generated documentation.
+* SNAPSHOT value refers to the 'latest' code along a development branch
+ * Conversely, the code in a 'release' version (any version value without the suffix SNAPSHOT) is unchanging.
+
+## Override standard build directories, code and test directories etc.
+```
+  <build>
+    <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+    <testSourceDirectory>${basedir}/src/test/java</testSourceDirectory>
+    <outputDirectory>${basedir}/target/classes</outputDirectory>
+  </build>
+```
+
+## Adding plugins
+* Configure java compiler to allow jdk 5.0 sources
+```
+...
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-compiler-plugin</artifactId>
+      <version>3.3</version>
+      <configuration>
+        <source>1.5</source>
+        <target>1.5</target>
+      </configuration>
+    </plugin>
+  </plugins>
+</build>
+...
+```
+* configuration - applies given parameters to every goal from the compiler plugin
+ * see what configuration available for a plugin look at: https://maven.apache.org/plugins/
+
+### POM
+* All pom.xml files inherit configuration elements from their parent pom.xml
+ * Philosophy convention over configuration
+* Super POM
+ * Like an abstract class in java - it does not work by itself
+ * The super pom defined in the apache maven project is the config all pom's eventually inherit from
+ * modelVersion - pre-defined 4.0.0
+ * repository - default is maven central
+ * In order to override anything in the super pom you need to use the same id to ovverride it
+ * .. or it will just be added / extended as an additional element
+* artifactid - way you identify a jar, war or any other type of artifact uniquely in a group
+* version - allows you to keep different versions of the artifact in the same repo
+* All these three coordinates of a given Maven artifact are used to define its path in the Maven repository.
+ *  groupId
+ *  artifactId
+ *  version
+ *  Example:
+```
+USER_HOME/.m2/repository/com/packt/sample-one/1.0.0/
+
+<groupId>com.packt</groupId>
+<artifactId>sample-one</artifactId>
+<version>1.0.0</version>
+
+``` 
+* Plugins by default have their groupId set by super pom repo, therefore only need artifactId and version
+ * This can be overwritten
+* pom.xml in root of project acts as module aggregating pom
+ * All maven modules defined under modules element - uses relative path to the corresponding pom.xml
+
+### Key elements in pom.xml
+```
+<project>
+  <parent>...</parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>...</groupId>
+  <artifactId>...</artifactId>
+  <version>...</version>
+  <packaging>...</packaging>
+   
+   <name>...</name>
+  <description>...</description>
+  <url>...</url>   
+  <inceptionYear>...</inceptionYear>
+  <licenses>...</licenses>
+  <organization>...</organization>
+  <developers>...</developers>
+  <contributors>...</contributors>
+
+
+  <dependencies>...</dependencies>
+  <dependencyManagement>...</dependencyManagement>
+  <modules>...</modules>
+  <properties>...</properties>
+
+  <build>...</build>
+  <reporting>...</reporting>
+   
+  <issueManagement>...</issueManagement>
+  <ciManagement>...</ciManagement>
+  <mailingLists>...</mailingLists>
+  <scm>...</scm>   
+  <prerequisites>...</prerequisites>
+  
+  <repositories>...</repositories>   
+  <pluginRepositories>...</pluginRepositories>
+
+  <distributionManagement>...</distributionManagement>
+
+  <profiles>...</profiles> 
+</project>
+```
+
+## References
+* https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html
+* https://maven.apache.org/guides/getting-started/index.html
