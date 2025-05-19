@@ -32,6 +32,9 @@ Upgrade whisper:
 ```
 cd whisperx
 pipenv install --upgrade --no-deps --force-reinstall git+https://github.com/openai/whisper.git
+pipenv shell
+whisper file_name.mp3 --model turbo # wav and flac are also supported
+whisper file_name.mp3 --language German
 ```
 
 References:
@@ -58,7 +61,7 @@ Docker:
 # newgrp docker # activates change without having to login and out
 ```
 
-Install whisper:
+Install whishper:
 ```
 mkdir whishper
 cd whishper
