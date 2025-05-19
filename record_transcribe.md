@@ -34,6 +34,7 @@ cd whisperx
 pipenv install --upgrade --no-deps --force-reinstall git+https://github.com/openai/whisper.git
 pipenv shell
 whisper file_name.mp3 --model turbo # wav and flac are also supported
+whisper file_name.mp3 --model turbo --device cpu # in case you run out of memory on your card
 whisper file_name.mp3 --language German
 ```
 
