@@ -37,3 +37,45 @@ pipenv install --upgrade --no-deps --force-reinstall git+https://github.com/open
 References:
 - https://github.com/openai/whisper
 - https://github.com/m-bain/whisperX
+
+### whishper.net
+
+Dependencies:
+```
+sudo apt install docker
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
+  && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+    sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+sudo apt-get update
+sudo apt-get install -y nvidia-container-toolkit
+```
+
+Docker:
+```
+# In order to avoid using sudo for docker you need to run the following commands
+# sudo usermod -aG docker your-desktop-username
+# newgrp docker # activates change without having to login and out
+```
+
+Install whisper:
+```
+mkdir whishper
+cd whishper
+curl -fsSL -o get-whishper.sh https://raw.githubusercontent.com/pluja/whishper/main/get-whishper.sh
+bash get-whishper.sh
+```
+
+Run and stop whishper:
+```
+docker-compose -f docker-compose.yml up
+docker-compose -f docker-compose.yml down --remove-orphans
+```
+
+Access:
+- http://localhost:8082
+
+References:
+- https://documentation.ubuntu.com/server/how-to/graphics/install-nvidia-drivers/index.html
+- https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#linux-distributions
+- https://whishper.net/guides/install/
