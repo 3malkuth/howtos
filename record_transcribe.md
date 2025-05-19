@@ -13,9 +13,27 @@ ffmpeg -f pulse -i "$(awk '$2~/.monitor$/ {print $2; exit;}' <(pactl list short 
 ```
 
 References:
-- https://askubuntu.com/questions/1316606/recording-phone-calls-in-ubuntu-20-04-not-just-skype
+https://askubuntu.com/questions/1316606/recording-phone-calls-in-ubuntu-20-04-not-just-skype
 
 ### whisper
 
-* https://github.com/m-bain/whisperX
-* https://github.com/openai/whisper
+Install whisper:
+```
+mkdir whisperx
+cd whisperx
+pipenv install git+https://github.com/openai/whisper.git
+
+OR
+
+pipenv install git+https://github.com/openai/whisper.git
+```
+
+Upgrade whisper:
+```
+cd whisperx
+pipenv install --upgrade --no-deps --force-reinstall git+https://github.com/openai/whisper.git
+```
+
+References:
+https://github.com/openai/whisper
+https://github.com/m-bain/whisperX
